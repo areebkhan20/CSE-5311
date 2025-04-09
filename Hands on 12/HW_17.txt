@@ -1,0 +1,52 @@
+a) The aggregate approach takes into account the overall cost of a series of operations split along the sequence.
+
+Operations Cost:
+
+There is no need for resizing when the table is empty and the first element is added.
+When a table increases for the first time (for example, from size 1 to size 2), the cost of copying the existing element plus the insertion comes to 2.
+The cost of the subsequent resize (from size 2 to size 4) is 2 (to copy the two existing elements), plus the insertion, for a total of 3.
+The cost is 𝑘+1 for each subsequent resizing, which occurs at sizes 4, 8, 16, and so on, where 𝑘 is the current number of entries in the table.
+
+Total Cost for 𝑛 Insertions:
+
+ The costs of all resizes and insertions must be added up for 𝑛 insertions.
+ Up to the greatest power of two less than or equal to 𝑛, resizes occur at sizes 1, 2, 4, 8,...
+ The elements that are copied each time are doubled if we add up the costs of resizing.
+ The sum equals 𝑛+(1+2+4+8+...+𝑛/2).
+ The cost of resizing is a geometric series that adds up to about 𝑛−1.
+ Average Operational Cost:
+
+ Total cost / n = (𝑛+𝑛−1)/𝑛≈2 is the amortized cost per operation.
+
+ As a result, the amortized cost per operation for 𝑛 operations is constant, 𝑂(1), when utilizing the aggregate technique.
+
+b) The accounting method assigns a specific "charge" to each operation, some of which may be overcharged to pay for more expensive operations later.
+
+Assign costs:
+
+
+Cost for Insertion: 
+
+Assume that every insertion "pays" for: 
+	The element being inserted.
+	The price of doubling the table when necessary.
+
+Calculate the Charges:
+
+Assume that every insertion adds enough to offset the cost of moving it during the next expansion.
+
+Assign a cost of three for the initial insertions: one for the insertion itself and two for its relocation during the following two expansions.
+
+Assign enough for each consecutive insertion to cover both the insertion and any upcoming movements. Since each element will only need to move a finite number of times, regardless of how big 𝑛 becomes, this assignment stays constant.
+
+Justification of Cost: 
+
+All of the components that need to be moved have previously "prepaid" for their relocation costs in earlier procedures as the table expands. 
+
+As a result, every insertion essentially pays for itself and its subsequent moves, guaranteeing that enough "savings" have been collected to cover the expense of a table expansion when it becomes necessary.
+
+Amortized Cost per Operation:  
+
+Since each element's movements are limited by the number of times the table may double (log𝑛 times), the extra costs is constant even though each insertion pays a fixed additional cost to cover future operations.
+
+We find that the amortized cost per insertion is 𝑂(1) using the accounting method.
